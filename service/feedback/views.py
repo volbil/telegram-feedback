@@ -5,6 +5,7 @@ from flask import Blueprint
 from .args import form_args
 from telegram import Bot
 from pony import orm
+import requests
 import config
 
 blueprint = Blueprint("feedback", __name__)
@@ -13,10 +14,33 @@ blueprint = Blueprint("feedback", __name__)
 @use_args(form_args, location="json")
 @orm.db_session
 def form(args):
-    message = Message(**args)
-    bot = Bot(config.bot_key)
+    if config.captcha:
+        r = requests.post("https://hcaptcha.com/siteverify", data={
+            "response": args["h-captcha-response"],
+            "secret": config.captcha_secret
+        })
 
+        result = r.json()
+
+        if not result["success"]:
+            return {
+                "error": "Captcha failed", "result": {}
+            }
+
+        if result["hostname"] != config.captcha_hostname:
+            return {
+                "error": "Captcha failed", "result": {}
+            }
+
+    message = Message(**{
+        "email": args["email"],
+        "message": args["message"],
+        "offers": args["offers"]
+    })
+
+    bot = Bot(config.bot_key)
     sent = message.created.strftime("%m/%d/%Y, %H:%M:%S (UTC)")
+
     text = f"*Email*: {escape_markdown(message.email, version=2)}\n"
     text += f"*Sent*: {escape_markdown(sent, version=2)}\n"
     text += f"*Message:* {escape_markdown(message.message, version=2)}\n"

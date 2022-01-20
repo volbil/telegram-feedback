@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"email\": \"volbilnexus@gmail.com\", \"message\": \"Test\", \"offers\": false}",
+					"raw": "{\"email\": \"volbilnexus@gmail.com\", \"message\": \"Test\", \"offers\": false, \"h-captcha-response\": \"RESPONSE\"}",
 					"options": {
 						"raw": {
 							"language": "json"
