@@ -1,0 +1,17 @@
+from flask import Flask
+from .models import db
+import config
+
+db.bind(**config.db)
+db.generate_mapping(create_tables=True)
+
+def create_app():
+    app = Flask(__name__)
+    app.config["SECRET_KEY"] = config.secret
+
+    with app.app_context():
+        from .feedback import feedback
+
+        app.register_blueprint(feedback)
+
+        return app
