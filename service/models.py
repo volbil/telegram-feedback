@@ -8,5 +8,6 @@ class Message(db.Entity):
 
     created = orm.Optional(datetime, default=datetime.utcnow)
     offers = orm.Required(bool)
+    budget = orm.Required(str)
     message = orm.Required(str)
     email = orm.Required(str)
