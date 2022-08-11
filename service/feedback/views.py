@@ -35,6 +35,7 @@ def form(args):
     message = Message(**{
         "email": args["email"],
         "message": args["message"],
+        "budget": args["budget"],
         "offers": args["offers"]
     })
 
@@ -44,6 +45,7 @@ def form(args):
     text = f"*Email*: {escape_markdown(message.email, version=2)}\n"
     text += f"*Sent*: {escape_markdown(sent, version=2)}\n"
     text += f"*Message:* {escape_markdown(message.message, version=2)}\n"
+    text += f"*Budget:* {escape_markdown(message.budget, version=2)}\n"
     text += f"*Offers*: {message.offers}"
 
     bot.send_message(
