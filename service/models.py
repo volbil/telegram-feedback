@@ -11,3 +11,4 @@ class Message(db.Entity):
     budget = orm.Required(str)
     message = orm.Required(str)
     email = orm.Required(str)
+    name = orm.Required(str)

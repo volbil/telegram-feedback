@@ -33,6 +33,7 @@ def form(args):
             }
 
     message = Message(**{
+        "name": args["name"],
         "email": args["email"],
         "message": args["message"],
         "budget": args["budget"],
@@ -42,6 +43,7 @@ def form(args):
     bot = Bot(config.bot_key)
     sent = message.created.strftime("%m/%d/%Y, %H:%M:%S (UTC)")
 
+    text = f"*Name*: {escape_markdown(message.name, version=2)}\n"
     text = f"*Email*: {escape_markdown(message.email, version=2)}\n"
     text += f"*Sent*: {escape_markdown(sent, version=2)}\n"
     text += f"*Message:* {escape_markdown(message.message, version=2)}\n"
